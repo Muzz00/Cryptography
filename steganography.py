@@ -171,7 +171,7 @@ def Steganography():
     baseFgColor = "white"
     t.title("Cryptography")
     t.configure(bg=baseBgColor)
-    t.geometry("950x800")
+    t.geometry("950x600")
     imgPath = ''
 
     # ENCODING
