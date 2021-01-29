@@ -1,17 +1,17 @@
 import zlib
 
-codes = [[1, 'z,'], [2, '8('], [3, '9C'], [4, '3W'], [5, 'J5'], [6, 'I"'], [7, '4['], [8, '-1'], [9, '+6'], ['a', 'e7'],
-         ['b', '1z'], ['c', '2V'], ['d', 'v6'], ['e', 'Q4'], ['f', ':8'], ['g', '1I'], ['h', 'n2'], ['i', 'S4'],
-         ['j', 'P_'], ['k', 'b*'], ['l', ' l'], ['m', '#R'], ['n', '3p'], ['o', "'2"], ['p', '^f'], ['q', 'r>'],
-         ['r', '&d'], ['s', '4E'], ['t', '6!'], ['u', ']f'], ['v', '{5'], ['w', '8['], ['x', '%3'], ['y', 'u '],
-         ['z', '7d'], ['A', '1M'], ['B', '_8'], ['C', 'w7'], ['D', 'g4'], ['E', 'i1'], ['F', '7%'], ['G', 'U*'],
-         ['H', 't7'], ['I', '{9'], ['J', 'j\\'], ['K', '2:'], ['L', 'X;'], ['M', 'Q9'], ['N', "2'"], ['O', '[F'],
-         ['P', 'M3'], ['Q', '8"'], ['R', '1;'], ['S', '(3'], ['T', 'p*'], ['U', '|E'], ['V', '5/'], ['W', 'O*'],
-         ['X', '[3'], ['Y', '1p'], ['Z', '7e'], ['!', ']I'], ['@', '/f'], ['#', '/l'], ['$', '~8'], ['%', '+7'],
-         ['^', 'b{'], ['&', '*5'], ['*', '.3'], ['(', 'P~'], [')', '*9'], [' ', '(k'], ['<', '{n'], ['>', "j'"],
-         [':', 'W~'], ['"', 'K9'], ['{', '6c'], ['}', 'V9'], ['|', 'P<'], ['_', '1@'], ['+', '{A'], ['/', 'F4'],
-         ['*', 'g2'], ['+', 'N1'], ['~', '1 '], [',', 'K/'], ['.', '=4'], [';', '2X'], ["'", 'o!'], ['[', 'a5'],
-         [']', '4#'], ['\\', 'g7'], ['-', '>y'], ['=', 't*'], ['`', 'y5']]
+codes = [[1, '5\\'], [2, '1+'], [3, 'C*'], [4, ')6'], [5, '\\8'], [6, '+q'], [7, '<9'], [8, '5,'], [9, '3#'],
+         ['a', ')5'], ['b', 'G$'], ['c', '9;'], ['d', '6;'], ['e', '+9'], ['f', '<H'], ['g', '7Z'], ['h', 'c4'],
+         ['i', '9I'], ['j', '2z'], ['k', 'm('], ['l', 'Y9'], ['m', '4V'], ['n', '1~'], ['o', 'n3'], ['p', '>6'],
+         ['q', 'e2'], ['r', '7&'], ['s', '>5'], ['t', '2x'], ['u', '7a'], ['v', '1z'], ['w', '1y'], ['x', '1<'],
+         ['y', 'G,'], ['z', '<7'], ['A', '#4'], ['B', 'X('], ['C', '.1'], ['D', '"4'], ['E', 'J2'], ['F', 'c&'],
+         ['G', '9C'], ['H', ')g'], ['I', 'Q2'], ['J', 'P}'], ['K', 'S"'], ['L', 'I&'], ['M', '4='], ['N', '\\5'],
+         ['O', '(2'], ['P', "'X"], ['Q', 'g,'], ['R', '2o'], ['S', 'i8'], ['T', '%6'], ['U', 'M5'], ['V', "2'"],
+         ['W', '}5'], ['X', '*2'], ['Y', 'r~'], ['Z', ')4'], [' ', 'W8'], ['!', '9!'], ['@', '6:'], ['#', 'I~'],
+         ['$', 'l3'], ['%', '%5'], ['^', '_7'], ['&', 'B5'], ['*', '2S'], ['(', 'K]'], [')', 'k6'], ['<', '2$'],
+         ['>', 'T.'], [':', '*6'], ['"', '_O'], ['{', '8V'], ['}', '_4'], ['|', '7+'], ['_', '=9'], ['+', ',9'],
+         ['/', 'K5'], ['*', 'E9'], ['+', 'v3'], ['~', '5I'], [',', 's|'], ['.', 'P6'], [';', 'j!'], ["'", 'G<'],
+         ['[', '*o'], [']', '@D'], ['\\', 'o7'], ['-', '<M'], ['=', '3t'], ['`', '8*']]
 
 
 def hashEncrypt(value):
@@ -23,17 +23,17 @@ def hashEncrypt(value):
                 code = c[1]
         crypt.insert(0, code)
     s = ''
-    s = s.join(crypt).encode()
-    c = zlib.compress(s, 9)
-    print(f'Compressed from length of {len(s)} to {len(c)}')
-    return c
+    s = s.join(crypt)
+    # s = zlib.compress(s, 9)
+
+    return s
 
 
 def hashDecrypt(value):
-    value = zlib.decompress(value)
-    value = value.decode()
+    # value = zlib.decompress(value, 9)
     print(value)
     crypt = []
+    print(len(value))
     for i in range(len(value) - 1, 0, -2):
         code = value[i - 1] + value[i]
         for c in codes:
@@ -43,13 +43,9 @@ def hashDecrypt(value):
     s = ''
     return s.join(crypt)
 
+# encrypt = "Loreml ]\'[.,\.]/\.[\].,[\],[ipsum dolor sit amet, consectetur adipiscing elit. Morbi feugiat vestibulum sapien, non mollis nulla congue et. Morbi accumsan, odio eget semper dignissim, urna nisi pulvinar dui, sed porttitor nisl tortor quis leo. Sed venenatis tincidunt leo eu bibendum. Aliquam rutrum leo vitae urna aliquet, at iaculis urna commodo. Nunc sodales dapibus tincidunt. Donec tincidunt erat vel lectus ultricies, in ornare arcu vestibulum. Donec lacinia eros justo, ac fringilla est sagittis sed. Vivamus ultricies risus et aliquet aliquet."
 
-# he = hashEncrypt('This is encoded')
-# he = hashEncrypt("Hello my name is mohamed")
-encrypt = "Loreml ]\'[.,\.]/\.[\].,[\],[ipsum dolor sit amet, consectetur adipiscing elit. Morbi feugiat vestibulum sapien, non mollis nulla congue et. Morbi accumsan, odio eget semper dignissim, urna nisi pulvinar dui, sed porttitor nisl tortor quis leo. Sed venenatis tincidunt leo eu bibendum. Aliquam rutrum leo vitae urna aliquet, at iaculis urna commodo. Nunc sodales dapibus tincidunt. Donec tincidunt erat vel lectus ultricies, in ornare arcu vestibulum. Donec lacinia eros justo, ac fringilla est sagittis sed. Vivamus ultricies risus et aliquet aliquet."
-# encrypt = "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-he = hashEncrypt(encrypt)
-hd = hashDecrypt(he)
-print(he)
-print(hd)
-
+# he = hashEncrypt(encrypt)
+# he = b"1I3pS4n26!Q4#R'2(3"
+# hd = hashDecrypt(he)
+# print(hd)

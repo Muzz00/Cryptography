@@ -3,6 +3,7 @@ from tkinter import *
 import cv2
 import numpy as np
 from hashlib import *
+from mHash import *
 
 
 def messageToBinary(message):
@@ -86,10 +87,8 @@ def encode_text():
     # details of the image
     print("The shape of the image is: ", image.shape)  # check the shape of image to calculate the number of bytes in it
     print("The original image is as shown below: ")
-    # resized_image = cv2.resize(image, (500, 500))  # resize the image as per your requirement
-    # cv2_imshow(resized_image)  # display the image
-    cv2.imshow('something', image)  # display the image
-    cv2.waitKey(0)
+    resized_image = cv2.resize(image, (500, 500))  # resize the image as per your requirement
+    cv2.imshow('Encode', image)  # display the image
     cv2.waitKey(1000)
     cv2.destroyAllWindows()
     # data = input("Enter data to be encoded : ")
@@ -112,32 +111,13 @@ def decode_text():
     image = cv2.imread(imgPath)  # read the image using cv2.imread()
 
     # print("The Steganography image is as shown below: ")
-    # resized_image = cv2.resize(image, (500, 500))  # resize the original image as per your requirement
-    # # cv2_imshow(resized_image)  # display the Steganographed image
-    cv2.imshow('something', image)  # display the Steganographed image
-    cv2.waitKey(0)
+    resized_image = cv2.resize(image, (500, 500))  # resize the original image as per your requirement
+    cv2.imshow('Decode', image)  # display the Steganographed image
     cv2.waitKey(1000)
     cv2.destroyAllWindows()
     value = showData(image)
     textDecoded.insert(INSERT, f'Decoded: {value}')
     return value
-
-
-# Image Steganography
-# def Steganography():
-#     userinput = ''
-#     while 'q' not in str(userinput):
-#         a = input("Image Steganography \n 1. Encode the data \n 2. Decode the data \n Your input is: ")
-#         userinput = int(a)
-#         if (userinput == 1):
-#             print("\nEncoding....")
-#             encode_text()
-#
-#         elif (userinput == 2):
-#             print("\nDecoding....")
-#             print("Decoded message is: " + decode_text())
-#         else:
-#             print("Enter correct input")
 
 
 def change_path():
@@ -166,38 +146,60 @@ def encrypt512(value):
     textEncResult.insert(INSERT, signature)
 
 
+def mHashEnc(value):
+    textEncResult.delete(1.0, END)
+    signature = hashEncrypt(str(value.get("1.0", END)).strip())
+
+    print(signature)
+    textEncResult.insert(INSERT, str(signature))
+
+
+def mHashDec(value):
+    textEncResult.delete(1.0, END)
+    signature = hashDecrypt(str(value.get("1.0", END)).strip())
+
+    # return signature
+    textEncResult.insert(INSERT, signature)
+
+
 #
 #
 def Steganography():
     global t, pathText, imgPath, textDecoded, textEnc, textEncResult
     t = Tk()
-    t.title("Steganography")
-    t.configure(bg="white")
-    t.geometry("950x500")
+    baseBgColor = "#333"
+    baseFgColor = "white"
+    t.title("Cryptography")
+    t.configure(bg=baseBgColor)
+    t.geometry("950x800")
     imgPath = ''
 
+    # ENCODING
     pathText = Text(t, width=120, height=2)
-    pathText.configure(bg="lightgrey", fg="black")
+    pathText.configure(bg="lime green", fg="black")
     pathText.place(x=0, y=100)
     pathText.insert(INSERT, f'Path: {imgPath}')
-
     textDecoded = Text(t, width=120, height=2)
-    textDecoded.configure(bg="lightgrey", fg="black")
+    textDecoded.configure(bg="lime green", fg="black")
     textDecoded.place(x=0, y=160)
 
+    lblEncDec = Label(t, text="Encode/Decode Images", width='30', height='2', font=("Courier", 12), bg=baseBgColor, fg=baseFgColor).place(x=10, y=30)
+    encode = Button(t, text="Encode", command=lambda: encode_text(), width=15, height=2, bg="lightskyblue2").place(x=350, y=30)
+    decode = Button(t, text="Decode", command=lambda: decode_text(), width=15, height=2, bg="lightskyblue2").place(x=480, y=30)
+    changePath = Button(t, text="Change Path", command=lambda: change_path(), width=15, height=2, bg="lightskyblue2").place(x=610, y=30)
+
+    # SHA255/512 HASHING
     textEnc = Text(t, width=120, height=2)
-    textEnc.configure(bg="lightgrey", fg="black")
+    textEnc.configure(bg="lime green", fg="black")
     textEnc.place(x=0, y=300)
-
     textEncResult = Text(t, width=120, height=2)
-    textEncResult.configure(bg="lightgrey", fg="black")
+    textEncResult.configure(bg="lime green", fg="black")
     textEncResult.place(x=0, y=360)
-
-    encode = Button(t, text="Encode", command=lambda: encode_text(), width=15, height=2).place(x=50, y=30)
-    decode = Button(t, text="Decode", command=lambda: decode_text(), width=15, height=2).place(x=190, y=30)
-    changePath = Button(t, text="Change Path", command=lambda: change_path(), width=15, height=2).place(x=350, y=30)
-    sha256 = Button(t, text="sha256", command=lambda: encrypt256(textEnc), width=15, height=2).place(x=480, y=30)
-    sha512 = Button(t, text="sha512", command=lambda: encrypt512(textEnc), width=15, height=2).place(x=620, y=30)
+    lbl256512 = Label(t, text="Sha256 and Sha512 hash", width='30', height='2', font=("Courier", 12), bg=baseBgColor, fg=baseFgColor).place(x=10, y=250)
+    sha256 = Button(t, text="sha256", command=lambda: encrypt256(textEnc), width=15, height=2, bg="lightskyblue2").place(x=350, y=250)
+    sha512 = Button(t, text="sha512", command=lambda: encrypt512(textEnc), width=15, height=2, bg="lightskyblue2").place(x=480, y=250)
+    mHashEncrypt = Button(t, text="mHash Encrypt", command=lambda: mHashEnc(textEnc), width=15, height=2, bg="lightskyblue2").place(x=610, y=250)
+    mHashDecrypt = Button(t, text="mHash Decrypt", command=lambda: mHashDec(textEnc), width=15, height=2, bg="lightskyblue2").place(x=740, y=250)
 
     t.mainloop()
 
@@ -214,8 +216,4 @@ Steganography()  # encode image
 # Reference: https://github.com/rroy1212/Image_Steganography/blob/master/ImageSteganography.ipynb
 
 #
-
-
-hash1 = encrypt256('Something')
-hash2 = encrypt512('Something')
 
