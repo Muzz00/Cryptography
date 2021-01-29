@@ -31,9 +31,9 @@ def hashEncrypt(value):
 
 def hashDecrypt(value):
     # value = zlib.decompress(value, 9)
-    print(value)
+    # print(value)
     crypt = []
-    print(len(value))
+    # print(len(value))
     for i in range(len(value) - 1, 0, -2):
         code = value[i - 1] + value[i]
         for c in codes:

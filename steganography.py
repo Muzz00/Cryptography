@@ -122,7 +122,7 @@ def decode_text():
 
 def change_path():
     global imgPath
-    t.filename = filedialog.askopenfilename(initialdir="C:\\Source\\Scripting\\Steganography", title="Select file",
+    t.filename = filedialog.askopenfilename(initialdir="C:\\Users\\muzz1\\'OneDrive - Unitec NZ'\\Learning\\Cryptography", title="Select file",
                                                filetypes=(("png files", "*.png"), ("jpeg files", "*.jpg"), ("all files", "*.*")))
     imgPath = t.filename
     pathText.delete(1.0, END)
